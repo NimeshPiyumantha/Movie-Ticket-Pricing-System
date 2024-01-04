@@ -15,6 +15,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./ListItems/ListItems";
 import Home from "../Home/Home";
+import Navigation from "../../components/Navigation/Navigation";
 
 const drawerWidth: number = 240;
 
@@ -146,7 +147,7 @@ const Dashboard = () => {
           }}
         >
           <Toolbar />
-          <Home />
+          <Navigation />
         </Box>
       </Box>
     </ThemeProvider>
