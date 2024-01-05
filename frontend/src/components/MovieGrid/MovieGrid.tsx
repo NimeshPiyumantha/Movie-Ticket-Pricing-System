@@ -85,7 +85,11 @@ function EditToolbar(props: EditToolbarProps) {
   };
 
   return (
-    <GridToolbarContainer>
+    <GridToolbarContainer
+      sx={{
+        backgroundColor: "#ecf0f1",
+      }}
+    >
       <Button
         color="primary"
         startIcon={<AddIcon />}

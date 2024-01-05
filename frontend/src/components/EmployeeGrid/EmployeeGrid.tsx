@@ -36,6 +36,7 @@ import {
 } from "../../util/validationUtilUser";
 import { ERoleTypeEnum } from "../../enum/roleTypeEnum";
 import { generateAge } from "../../util/generateAgeUtil";
+import Title from "../Title/Title";
 
 interface IUserEntry {
   id: number;
@@ -56,9 +57,9 @@ const EmployeeGrid = () => {
     (state: RootState) => state.employeeEntries.employeeEntries
   );
 
-  useEffect(() => {
-    dispatch(employeeActions.fetchEmployeeEntry());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(employeeActions.fetchEmployeeEntry());
+  // }, [dispatch]);
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
     params,
@@ -129,7 +130,7 @@ const EmployeeGrid = () => {
 
   const handleDeleteClick = (row: GridRowModel) => () => {
     if (window.confirm("Are you sure you want to delete this record?")) {
-      dispatch(employeeActions.deleteEmployeeEntry(row.row.email));
+      dispatch(employeeActions.deleteEmployeeEntry(row.row?.email));
     }
   };
 
@@ -140,7 +141,7 @@ const EmployeeGrid = () => {
       row.address === "" ||
       row.age === 0
     ) {
-      dispatch(employeeActions.deleteEmployeeEntry(row.row.email));
+      dispatch(employeeActions.deleteEmployeeEntry(row.email));
       return;
     }
     setRowModesModel({
@@ -424,30 +425,20 @@ const EmployeeGrid = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "top",
-        marginTop: "1em",
-        height: "100vh",
+        height: "100%",
+        width: "100%",
+        overflowX: "auto",
+        "& .actions": {
+          color: "text.secondary",
+        },
+        "& .textPrimary": {
+          color: "text.primary",
+        },
       }}
     >
-      <Box
-        sx={{
-          margin: "1em",
-          width: "90%",
-          "& .actions": {
-            color: "text.secondary",
-          },
-          "& .textPrimary": {
-            color: "text.primary",
-          },
-        }}
-      >
+      <>
+        <Title>Manage Employees</Title>
         <DataGrid
-          sx={{
-            backgroundColor: "#ecf0f1",
-          }}
           rows={userList.map((user) => ({
             ...user,
             dob: new Date(user.dob),
@@ -467,7 +458,7 @@ const EmployeeGrid = () => {
             toolbar: EditToolbar,
           }}
         />
-      </Box>
+      </>
     </Box>
   );
 };
