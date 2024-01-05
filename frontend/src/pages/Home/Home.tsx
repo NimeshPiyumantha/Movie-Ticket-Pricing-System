@@ -3,8 +3,8 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Chart from "../../components/Chart/Chart";
 import Deposits from "../../components/Income/Income";
-import Orders from "../../components/Orders/Orders";
 import Footer from "../../components/Footer/Footer";
+import Orders from "../../components/Orders/Orders";
 
 const Home = () => {
   return (
