@@ -7,7 +7,6 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import {
-  GridRowsProp,
   GridRowModesModel,
   GridRowModes,
   DataGrid,
@@ -15,12 +14,14 @@ import {
   GridToolbarContainer,
   GridActionsCellItem,
   GridEventListener,
-  GridRowId,
   GridRowModel,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import Title from "../Title/Title";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { useSelector } from "react-redux";
+import { movieActions } from "../../redux/movie/movieSlice";
 
 interface IMovieEntry {
   id: number;
@@ -32,85 +33,16 @@ interface IMovieEntry {
   mDirector: string;
 }
 
-const initialRows: GridRowsProp = [
-  {
-    id: 1,
-    mName: "Sample Movie Name",
-    mYear: "2023",
-    mCategory: "Action",
-    mDuration: "150 Minutes",
-    mLanguage: "English",
-    mDirector: "Sample Director Name",
-  },
-  {
-    id: 2,
-    mName: "Sample Movie Name2",
-    mYear: "2023",
-    mCategory: "Action",
-    mDuration: "150 Minutes",
-    mLanguage: "English",
-    mDirector: "Sample Director Name",
-  },
-];
-
-interface EditToolbarProps {
-  setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-  setRowModesModel: (
-    newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-  ) => void;
-}
-
-function EditToolbar(props: EditToolbarProps) {
-  const { setRows, setRowModesModel } = props;
-
-  const handleClick = () => {
-    const id = 3;
-    setRows((oldRows) => [
-      {
-        id,
-        mName: "",
-        mYear: "",
-        mCategory: "",
-        mDuration: "",
-        mLanguage: "",
-        mDirector: "",
-        isNew: true,
-      },
-      ...oldRows,
-    ]);
-    setRowModesModel((oldModel) => ({
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "mName" },
-      ...oldModel,
-    }));
-  };
-
-  return (
-    <GridToolbarContainer
-      sx={{
-        backgroundColor: "#ecf0f1",
-      }}
-    >
-      <Button
-        color="primary"
-        startIcon={<AddIcon />}
-        onClick={handleClick}
-        variant="contained"
-        sx={{
-          "& .MuiButton-label": {
-            textTransform: "none",
-          },
-          margin: "1em",
-        }}
-      >
-        Add record
-      </Button>
-    </GridToolbarContainer>
-  );
-}
-
 const MovieGrid = () => {
-  const [rows, setRows] = useState(initialRows);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+  const dispatch = useAppDispatch();
+  const movieList = useSelector(
+    (state: RootState) => state.movieEntries.movieEntries
+  );
+
+  useEffect(() => {
+    dispatch(movieActions.fetchMovieEntry());
+  }, [dispatch]);
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
     params,
@@ -121,38 +53,101 @@ const MovieGrid = () => {
     }
   };
 
-  const handleEditClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
+  function EditToolbar() {
+    const handleAddNew = () => {
+      const newMovie: IMovieEntry = {
+        id: -1,
+        mName: "",
+        mYear: "",
+        mCategory: "",
+        mDuration: "",
+        mLanguage: "",
+        mDirector: "",
+      };
+      dispatch(movieActions.addMovieEntry(newMovie));
+      setRowModesModel((oldModel) => ({
+        [newMovie.id]: { mode: GridRowModes.Edit, fieldToFocus: "mName" },
+        ...oldModel,
+      }));
+    };
 
-  const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
+    return (
+      <GridToolbarContainer
+        sx={{
+          backgroundColor: "#ecf0f1",
+        }}
+      >
+        <Button
+          color="primary"
+          startIcon={<AddIcon />}
+          onClick={handleAddNew}
+          variant="contained"
+          sx={{
+            "& .MuiButton-label": {
+              textTransform: "none",
+            },
+            margin: "1em",
+          }}
+        >
+          Add Movie
+        </Button>
+      </GridToolbarContainer>
+    );
+  }
 
-  const handleDeleteClick = (id: GridRowId) => () => {
-    setRows(rows.filter((row) => row.id !== id));
-  };
-
-  const handleCancelClick = (id: GridRowId) => () => {
+  const handleSaveClick = (row: GridRowModel) => () => {
     setRowModesModel({
       ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+      [row.id]: { mode: GridRowModes.View },
     });
+  };
 
-    const editedRow = rows.find((row) => row.id === id);
-    if (editedRow!.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
+  const handleEditClick = (row: GridRowModel) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [row.id]: { mode: GridRowModes.Edit },
+    });
+  };
+
+  const handleDeleteClick = (row: GridRowModel) => () => {
+    if (window.confirm("Are you sure you want to delete this record?")) {
+      dispatch(movieActions.deleteMovieEntry(row.id));
     }
   };
 
-  const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
+  const handleCancelClick = (row: GridRowModel) => () => {
+    if (
+      row.mName === "" ||
+      row.mYear === "" ||
+      row.mCategory === "" ||
+      row.mDuration === "" ||
+      row.mLanguage === "" ||
+      row.mDirector === ""
+    ) {
+      dispatch(movieActions.deleteMovieEntry(row.id));
+      return;
+    }
+    setRowModesModel({
+      ...rowModesModel,
+      [row.id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
   };
 
-  const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
-    setRowModesModel(newRowModesModel);
+  const processRowUpdate = (newRow: GridRowModel, oldRow: GridRowModel) => {
+    const { id, mName, mYear, mCategory, mDuration, mLanguage, mDirector } =
+      newRow;
+
+    const newMovie: IMovieEntry = {
+      id: id,
+      mName: mName,
+      mYear: mYear,
+      mCategory: mCategory,
+      mDuration: mDuration,
+      mLanguage: mLanguage,
+      mDirector: mDirector,
+    };
+    dispatch(movieActions.saveAndupdateMovieEntry(newMovie));
+    return Promise.resolve({ ...oldRow, ...newRow });
   };
 
   const columns: GridColDef[] = [
@@ -218,12 +213,14 @@ const MovieGrid = () => {
       headerName: "Actions",
       width: 100,
       cellClassName: "actions",
-      getActions: ({ id }) => {
+      getActions: ({ row }) => {
+        const id = row.id;
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
         if (isInEditMode) {
           return [
             <GridActionsCellItem
+              key={id}
               icon={
                 <SaveIcon
                   sx={{
@@ -235,7 +232,7 @@ const MovieGrid = () => {
               sx={{
                 color: "primary.main",
               }}
-              onClick={handleSaveClick(id)}
+              onClick={handleSaveClick(row)}
             />,
             <GridActionsCellItem
               icon={
@@ -247,7 +244,7 @@ const MovieGrid = () => {
               }
               label="Cancel"
               className="textPrimary"
-              onClick={handleCancelClick(id)}
+              onClick={handleCancelClick(row)}
               color="inherit"
             />,
           ];
@@ -264,7 +261,7 @@ const MovieGrid = () => {
             }
             label="Edit"
             className="textPrimary"
-            onClick={handleEditClick(id)}
+            onClick={handleEditClick(row)}
             color="inherit"
           />,
           <GridActionsCellItem
@@ -276,7 +273,7 @@ const MovieGrid = () => {
               />
             }
             label="Delete"
-            onClick={handleDeleteClick(id)}
+            onClick={handleDeleteClick(row)}
             color="inherit"
           />,
         ];
@@ -301,19 +298,20 @@ const MovieGrid = () => {
       <>
         <Title>Manage Movies</Title>
         <DataGrid
-          rows={rows}
+          rows={movieList.map((movie) => ({
+            ...movie,
+          }))}
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}
-          onRowModesModelChange={handleRowModesModelChange}
+          onRowModesModelChange={(handleRowModesModelChange) => {
+            setRowModesModel(handleRowModesModelChange);
+          }}
           onRowEditStop={handleRowEditStop}
           processRowUpdate={processRowUpdate}
           autoHeight
           slots={{
             toolbar: EditToolbar,
-          }}
-          slotProps={{
-            toolbar: { setRows, setRowModesModel },
           }}
         />
       </>

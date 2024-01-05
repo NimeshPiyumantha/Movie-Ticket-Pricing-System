@@ -57,9 +57,9 @@ const EmployeeGrid = () => {
     (state: RootState) => state.employeeEntries.employeeEntries
   );
 
-  // useEffect(() => {
-  //   dispatch(employeeActions.fetchEmployeeEntry());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(employeeActions.fetchEmployeeEntry());
+  }, [dispatch]);
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
     params,

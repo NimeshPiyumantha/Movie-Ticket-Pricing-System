@@ -3,12 +3,14 @@ import { useDispatch } from "react-redux";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "./saga";
 import { employeeReducer } from "./employee/employeeSlice";
+import { movieReducer } from "./movie/movieSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
   reducer: {
     employeeEntries: employeeReducer,
+    movieEntries: movieReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),
