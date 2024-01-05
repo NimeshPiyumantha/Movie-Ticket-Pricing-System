@@ -2,9 +2,9 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Footer from "../../components/Footer/Footer";
-import MovieGrid from "../../components/MovieGrid/MovieGrid";
+import EmployeeGrid from "../../components/EmployeeGrid/EmployeeGrid";
 
-const Movies = () => {
+const Employee = () => {
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Grid container spacing={3}>
@@ -17,7 +17,7 @@ const Movies = () => {
               height: "32em",
             }}
           >
-            <MovieGrid />
+            <EmployeeGrid />
           </Paper>
         </Grid>
       </Grid>
@@ -26,4 +26,4 @@ const Movies = () => {
   );
 };
 
-export default Movies;
+export default Employee;
