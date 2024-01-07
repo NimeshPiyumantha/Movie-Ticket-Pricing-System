@@ -146,7 +146,7 @@ const MovieGrid = () => {
       mDirector: mDirector,
     };
     dispatch(movieActions.saveAndUpdateMovieEntry(newMovie));
-    return Promise.resolve({ ...oldRow, ...newRow, id: id.toString() });
+    return Promise.resolve({ ...oldRow, ...newRow,});
   };
 
   const columns: GridColDef[] = [
