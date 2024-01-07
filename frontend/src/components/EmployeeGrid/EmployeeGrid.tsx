@@ -39,7 +39,7 @@ import { generateAge } from "../../util/generateAgeUtil";
 import Title from "../Title/Title";
 
 interface IUserEntry {
-  id: number;
+  id: string;
   roleType: string;
   name: string;
   address: string;
@@ -73,7 +73,7 @@ const EmployeeGrid = () => {
   function EditToolbar() {
     const handleAddNew = () => {
       const newUser: IUserEntry = {
-        id: -1,
+        id: "-1",
         roleType: "",
         name: "",
         address: "",
@@ -130,7 +130,7 @@ const EmployeeGrid = () => {
 
   const handleDeleteClick = (row: GridRowModel) => () => {
     if (window.confirm("Are you sure you want to delete this record?")) {
-      dispatch(employeeActions.deleteEmployeeEntry(row.row?.email));
+      dispatch(employeeActions.deleteEmployeeEntry(row.row?.id));
     }
   };
 
@@ -141,7 +141,7 @@ const EmployeeGrid = () => {
       row.address === "" ||
       row.age === 0
     ) {
-      dispatch(employeeActions.deleteEmployeeEntry(row.email));
+      dispatch(employeeActions.deleteEmployeeEntry(row.id));
       return;
     }
     setRowModesModel({
@@ -352,7 +352,7 @@ const EmployeeGrid = () => {
       minWidth: 150,
       headerClassName: "header-cell",
       cellClassName: "actions",
-      getActions: (row) => {
+      getActions: ({row}) => {
         const id = row.id;
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 

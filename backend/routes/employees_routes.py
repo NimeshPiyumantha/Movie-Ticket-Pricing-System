@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
+from fastapi.responses import JSONResponse
 from utils.encryption_decryption_password import encrypt_password,decrypt_password
 from models.employees_model import EmployeesModel
 from config.db import collection_employees
@@ -29,7 +30,7 @@ async def get_all_employees():
         except Exception as e:
             # Handle decryption errors (e.g., InvalidToken) appropriately
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
-    return employees
+    return JSONResponse(status_code=status.HTTP_200_OK, content={"data":employees, "message": "Employee load successfully"})
 
 # Add a new employees
 @employeesRouter.post("/employees")

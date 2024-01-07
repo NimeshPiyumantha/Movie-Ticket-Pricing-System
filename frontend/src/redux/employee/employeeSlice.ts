@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IEmployeeEntry {
+  id: string;
   roleType: string;
   name: string;
   address: string;
@@ -33,7 +34,7 @@ export const employeeSlice = createSlice({
     ) => {
       const data = action.payload;
       const index = state.employeeEntries.findIndex(
-        (userEntry) => userEntry.email === data.email
+        (userEntry) => userEntry.id === data.id
       );
       state.employeeEntries[index] = data;
     },
@@ -42,9 +43,9 @@ export const employeeSlice = createSlice({
       state.employeeEntries = action.payload;
     },
     deleteEmployeeEntry: (state, action: PayloadAction<string>) => {
-      const email = action.payload;
+      const id = action.payload;
       state.employeeEntries = state.employeeEntries.filter(
-        (userEntry) => userEntry.email !== email
+        (userEntry) => userEntry.id !== id
       );
     },
   },

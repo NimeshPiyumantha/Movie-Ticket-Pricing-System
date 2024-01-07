@@ -17,6 +17,7 @@ interface IData {
 }
 
 interface IEmployeeData {
+  id: string;
   roleType: string;
   name: string;
   address: string;
@@ -57,11 +58,11 @@ function* addAndUpdateEmployee(action: PayloadAction<IData>) {
     gender: data.gender,
   };
 
-  const isUpdate: boolean = data.id !== -1;
+  const isUpdate: boolean = Number(data.id) !== -1;
 
   try {
     if (isUpdate) {
-      yield call(api.put, `${employeeApi}/${data.email}`, employeeData);
+      yield call(api.put, `${employeeApi}/${data.id}`, employeeData);
     } else {
       yield call(api.post, employeeApi, employeeData);
     }
@@ -73,8 +74,8 @@ function* addAndUpdateEmployee(action: PayloadAction<IData>) {
 
 function* deleteEmployee(action: PayloadAction<string>) {
   try {
-    const email = action.payload;
-    yield call(api.delete, `${employeeApi}/${email}`);
+    const id = action.payload;
+    yield call(api.delete, `${employeeApi}/${id}`);
     yield put(employeeActions.fetchEmployeeEntry());
   } catch (e) {
     alert("Error deleting user data " + e);

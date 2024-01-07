@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
+from fastapi.responses import JSONResponse
 from models.movies_model import MoviesModel
 from config.db import collection_movies
 from schemas.movies_schema import list_serial_movies
@@ -12,7 +13,8 @@ async def get_all_movies():
     movies = list_serial_movies(collection_movies.find())
     if not movies:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No movies found")
-    return movies
+    return JSONResponse(status_code=status.HTTP_200_OK, content={"data":movies, "message": "Movies load successfully"})
+
 
 # Add a new movie
 @moviesRouter.post("/movies")

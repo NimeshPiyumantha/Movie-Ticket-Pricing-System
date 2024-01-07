@@ -24,7 +24,7 @@ import { useSelector } from "react-redux";
 import { movieActions } from "../../redux/movie/movieSlice";
 
 interface IMovieEntry {
-  id: number;
+  id: string;
   mName: string;
   mYear: string;
   mCategory: string;
@@ -56,7 +56,7 @@ const MovieGrid = () => {
   function EditToolbar() {
     const handleAddNew = () => {
       const newMovie: IMovieEntry = {
-        id: -1,
+        id: "-1",
         mName: "",
         mYear: "",
         mCategory: "",
@@ -136,7 +136,6 @@ const MovieGrid = () => {
   const processRowUpdate = (newRow: GridRowModel, oldRow: GridRowModel) => {
     const { id, mName, mYear, mCategory, mDuration, mLanguage, mDirector } =
       newRow;
-
     const newMovie: IMovieEntry = {
       id: id,
       mName: mName,
@@ -146,19 +145,11 @@ const MovieGrid = () => {
       mLanguage: mLanguage,
       mDirector: mDirector,
     };
-    dispatch(movieActions.saveAndupdateMovieEntry(newMovie));
-    return Promise.resolve({ ...oldRow, ...newRow });
+    dispatch(movieActions.saveAndUpdateMovieEntry(newMovie));
+    return Promise.resolve({ ...oldRow, ...newRow, id: id.toString() });
   };
 
   const columns: GridColDef[] = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 70,
-      editable: false,
-      align: "center",
-      headerClassName: "header-cell",
-    },
     {
       field: "mName",
       headerName: "Name",
@@ -300,6 +291,7 @@ const MovieGrid = () => {
         <DataGrid
           rows={movieList.map((movie) => ({
             ...movie,
+            id: movie.id.toString(),
           }))}
           columns={columns}
           editMode="row"

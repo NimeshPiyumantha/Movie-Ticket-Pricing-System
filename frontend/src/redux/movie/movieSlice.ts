@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface IMovieEntry {
-  id: number;
+  id: string;
   mName: string;
   mYear: string;
   mCategory: string;
@@ -31,7 +31,7 @@ const movieSlice = createSlice({
       state.movieEntries.unshift(data);
     },
 
-    saveAndupdateMovieEntry: (state, action: PayloadAction<IMovieEntry>) => {
+    saveAndUpdateMovieEntry: (state, action: PayloadAction<IMovieEntry>) => {
       const data = action.payload;
       const index = state.movieEntries.findIndex(
         (movieEntry) => movieEntry.id === data.id
@@ -39,8 +39,8 @@ const movieSlice = createSlice({
       state.movieEntries[index] = data;
     },
 
-    deleteMovieEntry: (state, action: PayloadAction<number>) => {
-      const id = action.payload;
+    deleteMovieEntry: (state, action: PayloadAction<string>) => {
+      const id = action.payload.toString();
       state.movieEntries = state.movieEntries.filter(
         (movieEntry) => movieEntry.id !== id
       );

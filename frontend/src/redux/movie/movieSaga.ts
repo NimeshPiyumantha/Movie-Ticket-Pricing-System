@@ -5,7 +5,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { movieActions } from "./movieSlice";
 
 interface IMovieData {
-  id: number;
+  id: string;
   mName: string;
   mYear: string;
   mCategory: string;
@@ -34,7 +34,6 @@ function* addAndUpdateMovie(action: PayloadAction<IMovieData>) {
   const data = action.payload;
 
   const movieData = {
-    id: data.id,
     mName: data.mName,
     mYear: data.mYear,
     mCategory: data.mCategory,
@@ -43,11 +42,11 @@ function* addAndUpdateMovie(action: PayloadAction<IMovieData>) {
     mDirector: data.mDirector,
   };
 
-  const isUpdate: boolean = data.id !== -1;
+  const isUpdate: boolean = Number(data.id) !== -1;
 
   try {
     if (isUpdate) {
-      yield call(api.put, movieApi + "/" + data.id, movieData);
+      yield call(api.put,`${movieApi}/${data.id}`, movieData);
     } else {
       yield call(api.post, movieApi, movieData);
     }
@@ -57,11 +56,10 @@ function* addAndUpdateMovie(action: PayloadAction<IMovieData>) {
   }
 }
 
-
-function* deleteMovie(action: PayloadAction<number>) {
+function* deleteMovie(action: PayloadAction<string>) {
   const id = action.payload;
   try {
-    yield call(api.delete, movieApi + "/" + id);
+    yield call(api.delete, `${movieApi}/${id}`);
     yield put(movieActions.fetchMovieEntry());
   } catch (e) {
     alert("Error deleting movie data " + e);
