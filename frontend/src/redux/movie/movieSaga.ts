@@ -3,6 +3,17 @@ import { api } from "../../api/api";
 import { movieApi } from "../../api/crudApi";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { movieActions } from "./movieSlice";
+import { equal, notEqual } from "assert";
+
+interface IData {
+  id: number;
+  mName: string;
+  mYear: string;
+  mCategory: string;
+  mDuration: string;
+  mLanguage: string;
+  mDirector: string;
+}
 
 interface IMovieData {
   id: string;
@@ -30,7 +41,7 @@ function* fetchMovie() {
   }
 }
 
-function* addAndUpdateMovie(action: PayloadAction<IMovieData>) {
+function* addAndUpdateMovie(action: PayloadAction<IData>) {
   const data = action.payload;
 
   const movieData = {
@@ -46,7 +57,7 @@ function* addAndUpdateMovie(action: PayloadAction<IMovieData>) {
 
   try {
     if (isUpdate) {
-      yield call(api.put,`${movieApi}/${data.id}`, movieData);
+      yield call(api.put, `${movieApi}/${data.id}`, movieData);
     } else {
       yield call(api.post, movieApi, movieData);
     }
@@ -67,7 +78,10 @@ function* deleteMovie(action: PayloadAction<string>) {
 }
 
 export function* movieSaga() {
-  yield takeLatest(movieActions.fetchMovieEntry, fetchMovie);
-  yield takeLatest(movieActions.addMovieEntry, addAndUpdateMovie);
-  yield takeLatest(movieActions.deleteMovieEntry, deleteMovie);
+  yield takeLatest(movieActions.fetchMovieEntry.type, fetchMovie);
+  yield takeLatest(
+    movieActions.saveAndUpdateMovieEntry.type,
+    addAndUpdateMovie
+  );
+  yield takeLatest(movieActions.deleteMovieEntry.type, deleteMovie);
 }

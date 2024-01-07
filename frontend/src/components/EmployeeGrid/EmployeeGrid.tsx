@@ -85,7 +85,7 @@ const EmployeeGrid = () => {
       };
       dispatch(employeeActions.addEmployeeEntry(newUser));
       setRowModesModel((oldModel) => ({
-        [newUser.email]: { mode: GridRowModes.Edit, fieldToFocus: "roleType" },
+        [newUser.id]: { mode: GridRowModes.Edit, fieldToFocus: "roleType" },
         ...oldModel,
       }));
     };
@@ -146,7 +146,7 @@ const EmployeeGrid = () => {
     }
     setRowModesModel({
       ...rowModesModel,
-      [row.email]: { mode: GridRowModes.View, ignoreModifications: true },
+      [row.id]: { mode: GridRowModes.View, ignoreModifications: true },
     });
   };
 
@@ -352,7 +352,7 @@ const EmployeeGrid = () => {
       minWidth: 150,
       headerClassName: "header-cell",
       cellClassName: "actions",
-      getActions: ({row}) => {
+      getActions: ({ row }) => {
         const id = row.id;
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 

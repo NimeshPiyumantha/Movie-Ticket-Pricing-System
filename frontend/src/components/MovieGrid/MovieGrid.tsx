@@ -56,7 +56,7 @@ const MovieGrid = () => {
   function EditToolbar() {
     const handleAddNew = () => {
       const newMovie: IMovieEntry = {
-        id: "-1",
+        id:"-1" ,
         mName: "",
         mYear: "",
         mCategory: "",
@@ -136,6 +136,7 @@ const MovieGrid = () => {
   const processRowUpdate = (newRow: GridRowModel, oldRow: GridRowModel) => {
     const { id, mName, mYear, mCategory, mDuration, mLanguage, mDirector } =
       newRow;
+
     const newMovie: IMovieEntry = {
       id: id,
       mName: mName,
@@ -146,7 +147,7 @@ const MovieGrid = () => {
       mDirector: mDirector,
     };
     dispatch(movieActions.saveAndUpdateMovieEntry(newMovie));
-    return Promise.resolve({ ...oldRow, ...newRow,});
+    return Promise.resolve({ ...oldRow, ...newRow });
   };
 
   const columns: GridColDef[] = [
@@ -291,7 +292,6 @@ const MovieGrid = () => {
         <DataGrid
           rows={movieList.map((movie) => ({
             ...movie,
-            id: movie.id.toString(),
           }))}
           columns={columns}
           editMode="row"
