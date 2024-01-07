@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class Movies(BaseModel):
+class MoviesModel(BaseModel):
         mName: str;
         mYear: str;
         mCategory: str;

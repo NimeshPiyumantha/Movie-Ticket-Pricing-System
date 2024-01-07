@@ -1,4 +1,4 @@
-def individual_serial(movies: dict) -> dict:
+def individual_serial_movies(movies: dict) -> dict:
     return {
         "id": str(movies["_id"]),
         "mName": movies["mName"],
@@ -9,5 +9,5 @@ def individual_serial(movies: dict) -> dict:
         "mDirector": movies["mDirector"],
     }
 
-def list_serial(movies) -> list:
-    return [individual_serial(movie) for movie in movies]
+def list_serial_movies(movies) -> list:
+    return [individual_serial_movies(movie) for movie in movies]

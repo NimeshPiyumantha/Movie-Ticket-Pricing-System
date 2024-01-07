@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from models.movies_model import Movies
+from fastapi import APIRouter, HTTPException, status
+from models.movies_model import MoviesModel
 from config.db import collection_movies
-from schemas.movies_schema import list_serial
+from schemas.movies_schema import list_serial_movies
 from bson import ObjectId
 
 moviesRouter = APIRouter()
@@ -9,14 +9,14 @@ moviesRouter = APIRouter()
 # Get all movies
 @moviesRouter.get("/movies")
 async def get_all_movies():
-    movies = list_serial(collection_movies.find())
+    movies = list_serial_movies(collection_movies.find())
     if not movies:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No movies found")
     return movies
 
 # Add a new movie
 @moviesRouter.post("/movies")
-async def add_movie(movies: Movies):
+async def add_movie(movies: MoviesModel):
     try:
         result = collection_movies.insert_one(dict(movies))
         if not result.inserted_id:
@@ -32,14 +32,14 @@ async def add_movie(movies: Movies):
 # Get a movie by id
 @moviesRouter.get("/movies/{id}")
 async def get_movie_by_id(id):
-    movie = list_serial(collection_movies.find({"_id": ObjectId(id)}))
+    movie = list_serial_movies(collection_movies.find({"_id": ObjectId(id)}))
     if not movie:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Movie not found")
     return movie
 
 # Update a movie by id
 @moviesRouter.put("/movies/{id}")
-async def update_movie_by_id(id:str, movies: Movies):
+async def update_movie_by_id(id:str, movies: MoviesModel):
     try:
         result = collection_movies.update_one({"_id": ObjectId(id)}, {"$set": dict(movies)})
         if not result.modified_count:
