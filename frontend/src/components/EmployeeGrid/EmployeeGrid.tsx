@@ -22,21 +22,11 @@ import {
 } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { employeeActions } from "../../redux/employee/employeeSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
-import {
-  maxDateUser,
-  minDateUser,
-  validateAddressInput,
-  validateEmailInput,
-  validateInputUser,
-  validateMobileInput,
-  validateNameInput,
-  validatePasswordInput,
-} from "../../util/validationUtilUser";
+import { maxDateUser, minDateUser, validateAddressInput, validateEmailInput, validateInputUser, validateMobileInput, validateNameInput, validatePasswordInput } from "../../util/validationUtilUser";
 import { ERoleTypeEnum } from "../../enum/roleTypeEnum";
 import { generateAge } from "../../util/generateAgeUtil";
-import Title from "../Title/Title";
+import { employeeActions } from "../../redux/employee/employeeSlice";
 
 interface IUserEntry {
   id: string;
@@ -85,7 +75,7 @@ const EmployeeGrid = () => {
       };
       dispatch(employeeActions.addEmployeeEntry(newUser));
       setRowModesModel((oldModel) => ({
-        [newUser.id]: { mode: GridRowModes.Edit, fieldToFocus: "roleType" },
+        [newUser.email]: { mode: GridRowModes.Edit, fieldToFocus: "roleType" },
         ...oldModel,
       }));
     };
@@ -130,7 +120,7 @@ const EmployeeGrid = () => {
 
   const handleDeleteClick = (row: GridRowModel) => () => {
     if (window.confirm("Are you sure you want to delete this record?")) {
-      dispatch(employeeActions.deleteEmployeeEntry(row.row?.id));
+      dispatch(employeeActions.deleteEmployeeEntry(row.row.id));
     }
   };
 
@@ -141,12 +131,12 @@ const EmployeeGrid = () => {
       row.address === "" ||
       row.age === 0
     ) {
-      dispatch(employeeActions.deleteEmployeeEntry(row.id));
+      dispatch(employeeActions.deleteEmployeeEntry(row.row.id));
       return;
     }
     setRowModesModel({
       ...rowModesModel,
-      [row.id]: { mode: GridRowModes.View, ignoreModifications: true },
+      [row.email]: { mode: GridRowModes.View, ignoreModifications: true },
     });
   };
 
@@ -352,7 +342,7 @@ const EmployeeGrid = () => {
       minWidth: 150,
       headerClassName: "header-cell",
       cellClassName: "actions",
-      getActions: ({ row }) => {
+      getActions: (row) => {
         const id = row.id;
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
@@ -425,20 +415,30 @@ const EmployeeGrid = () => {
   return (
     <Box
       sx={{
-        height: "100%",
-        width: "100%",
-        overflowX: "auto",
-        "& .actions": {
-          color: "text.secondary",
-        },
-        "& .textPrimary": {
-          color: "text.primary",
-        },
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "top",
+        marginTop: "1em",
+        height: "100vh",
       }}
     >
-      <>
-        <Title>Manage Employees</Title>
+      <Box
+        sx={{
+          margin: "1em",
+          width: "90%",
+          "& .actions": {
+            color: "text.secondary",
+          },
+          "& .textPrimary": {
+            color: "text.primary",
+          },
+        }}
+      >
         <DataGrid
+          sx={{
+            backgroundColor: "#ecf0f1",
+          }}
           rows={userList.map((user) => ({
             ...user,
             dob: new Date(user.dob),
@@ -458,7 +458,7 @@ const EmployeeGrid = () => {
             toolbar: EditToolbar,
           }}
         />
-      </>
+      </Box>
     </Box>
   );
 };
