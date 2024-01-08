@@ -56,7 +56,7 @@ const MovieGrid = () => {
   function EditToolbar() {
     const handleAddNew = () => {
       const newMovie: IMovieEntry = {
-        id:"-1" ,
+        id: "-1",
         mName: "",
         mYear: "",
         mCategory: "",
@@ -290,6 +290,9 @@ const MovieGrid = () => {
       <>
         <Title>Manage Movies</Title>
         <DataGrid
+          sx={{
+            margin: "1em",
+          }}
           rows={movieList.map((movie) => ({
             ...movie,
           }))}

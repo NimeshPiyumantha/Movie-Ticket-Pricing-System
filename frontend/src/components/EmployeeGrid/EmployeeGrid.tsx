@@ -23,10 +23,20 @@ import {
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { maxDateUser, minDateUser, validateAddressInput, validateEmailInput, validateInputUser, validateMobileInput, validateNameInput, validatePasswordInput } from "../../util/validationUtilUser";
+import {
+  maxDateUser,
+  minDateUser,
+  validateAddressInput,
+  validateEmailInput,
+  validateInputUser,
+  validateMobileInput,
+  validateNameInput,
+  validatePasswordInput,
+} from "../../util/validationUtilUser";
 import { ERoleTypeEnum } from "../../enum/roleTypeEnum";
 import { generateAge } from "../../util/generateAgeUtil";
 import { employeeActions } from "../../redux/employee/employeeSlice";
+import Title from "../Title/Title";
 
 interface IUserEntry {
   id: string;
@@ -129,14 +139,16 @@ const EmployeeGrid = () => {
       row.name === "" ||
       row.mobileNumber === "" ||
       row.address === "" ||
-      row.age === 0
+      row.age === "" ||
+      row.email === "" ||
+      row.password === ""
     ) {
       dispatch(employeeActions.deleteEmployeeEntry(row.row.id));
       return;
     }
     setRowModesModel({
       ...rowModesModel,
-      [row.email]: { mode: GridRowModes.View, ignoreModifications: true },
+      [row.row.email]: { mode: GridRowModes.View, ignoreModifications: true },
     });
   };
 
@@ -374,7 +386,7 @@ const EmployeeGrid = () => {
               }
               label="Cancel"
               className="textPrimary"
-              onClick={handleCancelClick(row.row)}
+              onClick={handleCancelClick(row)}
               color="inherit"
             />,
           ];
@@ -391,7 +403,7 @@ const EmployeeGrid = () => {
               />
             }
             label="Edit"
-            onClick={handleEditClick(row)}
+            onClick={handleEditClick(row.row)}
             color="inherit"
           />,
           <GridActionsCellItem
@@ -415,29 +427,21 @@ const EmployeeGrid = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "top",
-        marginTop: "1em",
-        height: "100vh",
+        height: "100%",
+        width: "100%",
+        "& .actions": {
+          color: "text.secondary",
+        },
+        "& .textPrimary": {
+          color: "text.primary",
+        },
       }}
     >
-      <Box
-        sx={{
-          margin: "1em",
-          width: "90%",
-          "& .actions": {
-            color: "text.secondary",
-          },
-          "& .textPrimary": {
-            color: "text.primary",
-          },
-        }}
-      >
+      <>
+        <Title>Manage Employee</Title>
         <DataGrid
           sx={{
-            backgroundColor: "#ecf0f1",
+            margin: "1em",
           }}
           rows={userList.map((user) => ({
             ...user,
@@ -458,7 +462,7 @@ const EmployeeGrid = () => {
             toolbar: EditToolbar,
           }}
         />
-      </Box>
+      </>
     </Box>
   );
 };
