@@ -16,7 +16,6 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./ListItems/ListItems";
 import Navigation from "../../components/Navigation/Navigation";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { NavLink } from "react-router-dom";
 
 const drawerWidth: number = 240;
 
@@ -114,7 +113,7 @@ const Dashboard = () => {
               variant="h6"
               color="inherit"
               noWrap
-              sx={{ flexGrow: 1 }}
+              sx={{ flexGrow: 1, fontWeight: "bold" }}
             >
               Dashboard
             </Typography>
@@ -140,7 +139,15 @@ const Dashboard = () => {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open}>
+        <Drawer
+          variant="permanent"
+          open={open}
+          sx={{
+            "& .MuiDrawer-paper": {
+              backgroundColor: "#ffffff",
+            },
+          }}
+        >
           <Toolbar
             sx={{
               display: "flex",
