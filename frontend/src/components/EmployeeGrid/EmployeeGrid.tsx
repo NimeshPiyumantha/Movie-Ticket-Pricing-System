@@ -94,6 +94,8 @@ const EmployeeGrid = () => {
       <GridToolbarContainer
         sx={{
           backgroundColor: "#ecf0f1",
+          borderRadius: "1em",
+          boxShadow: "0 0 10px rgba(0,0,0,0.5)",
         }}
       >
         <Button
@@ -442,6 +444,8 @@ const EmployeeGrid = () => {
         <DataGrid
           sx={{
             margin: "1em",
+            borderRadius: "1em",
+            boxShadow: "0 0 10px rgba(0,0,0,0.3)",
           }}
           rows={userList.map((user) => ({
             ...user,

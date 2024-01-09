@@ -15,6 +15,8 @@ const Employee = () => {
               display: "flex",
               flexDirection: "column",
               height: "32em",
+              borderRadius: "1em",
+              boxShadow: "0 0 10px rgba(0,0,0,0.5)",
             }}
           >
             <EmployeeGrid />
