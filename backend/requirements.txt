@@ -3,3 +3,10 @@ uvicorn[standard]==0.24.0
 pymongo[srv]
 python-dotenv
 cryptography
+
+pandas
+matplotlib
+numpy
+seaborn
+scikit-learn
+
