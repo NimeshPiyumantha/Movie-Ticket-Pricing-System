@@ -18,6 +18,8 @@ const Home = () => {
               display: "flex",
               flexDirection: "column",
               height: 240,
+              borderRadius: "1em",
+              boxShadow: "0 0 10px rgba(0,0,0,0.5)",
             }}
           >
             <Chart />
@@ -31,6 +33,8 @@ const Home = () => {
               display: "flex",
               flexDirection: "column",
               height: 240,
+              borderRadius: "1em",
+              boxShadow: "0 0 10px rgba(0,0,0,0.5)",
             }}
           >
             <Deposits />
@@ -38,7 +42,15 @@ const Home = () => {
         </Grid>
         {/* Recent Orders */}
         <Grid item xs={12}>
-          <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+          <Paper
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              borderRadius: "1em",
+              boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+            }}
+          >
             <Orders />
           </Paper>
         </Grid>

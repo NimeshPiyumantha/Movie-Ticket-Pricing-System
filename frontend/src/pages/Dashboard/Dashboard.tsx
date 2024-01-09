@@ -15,6 +15,8 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./ListItems/ListItems";
 import Navigation from "../../components/Navigation/Navigation";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { NavLink } from "react-router-dom";
 
 const drawerWidth: number = 240;
 
@@ -67,7 +69,17 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 // TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+const defaultTheme = createTheme({
+  palette: {
+    mode: "light",
+    primary: {
+      main: "#1abc9c",
+    },
+    secondary: {
+      main: "#ff6b81",
+    },
+  },
+});
 
 const Dashboard = () => {
   const [open, setOpen] = React.useState(true);
@@ -110,6 +122,21 @@ const Dashboard = () => {
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
+            </IconButton>
+            <IconButton
+              color="inherit"
+              sx={{
+                marginLeft: "20px",
+              }}
+            >
+              <LogoutIcon
+                sx={{
+                  color: (theme) =>
+                    theme.palette.mode === "light"
+                      ? theme.palette.grey[100]
+                      : theme.palette.grey[900],
+                }}
+              />
             </IconButton>
           </Toolbar>
         </AppBar>

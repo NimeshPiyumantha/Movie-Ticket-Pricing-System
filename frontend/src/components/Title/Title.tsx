@@ -18,6 +18,7 @@ const Title = (props: TitleProps) => {
         marginBottom: "1rem",
         marginTop: "1rem",
         fontFamily: "Roboto",
+        color: "#2f3542",
       }}
     >
       {props.children}

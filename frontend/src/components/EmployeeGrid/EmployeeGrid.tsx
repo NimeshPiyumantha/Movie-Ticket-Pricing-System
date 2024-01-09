@@ -95,7 +95,7 @@ const EmployeeGrid = () => {
         sx={{
           backgroundColor: "#ecf0f1",
           borderRadius: "1em",
-          boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+          boxShadow: "0 0 5px rgba(0,0,0,0.5)",
         }}
       >
         <Button
@@ -108,6 +108,11 @@ const EmployeeGrid = () => {
               textTransform: "none",
             },
             margin: "1em",
+            backgroundColor: "#2f3542",
+            borderRadius: "0.5em",
+            boxShadow: "0 0 5px rgba(0,0,0,0.5)",
+            color: "#ecf0f1",
+            fontWeight: "bold",
           }}
         >
           Add User
@@ -445,7 +450,7 @@ const EmployeeGrid = () => {
           sx={{
             margin: "1em",
             borderRadius: "1em",
-            boxShadow: "0 0 10px rgba(0,0,0,0.3)",
+            boxShadow: "0 0 8px rgba(0,0,0,0.3)",
           }}
           rows={userList.map((user) => ({
             ...user,

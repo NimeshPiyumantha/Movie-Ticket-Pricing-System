@@ -3,13 +3,14 @@ import { Route, Routes } from "react-router-dom";
 import Home from "../../pages/Home/Home";
 import Movies from "../../pages/Movies/Movies";
 import Employee from "../../pages/Employee/Employee";
+import { DASHBOARD, EMPLOYEE, MOVIES } from "../../util/routesUtil";
 
 const Navigation = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/movies" element={<Movies />} />
-      <Route path="/employee" element={<Employee />} />
+      <Route path={DASHBOARD} element={<Home />} />
+      <Route path={MOVIES} element={<Movies />} />
+      <Route path={EMPLOYEE} element={<Employee />} />
     </Routes>
   );
 };
