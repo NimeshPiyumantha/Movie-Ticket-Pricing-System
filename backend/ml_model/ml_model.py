@@ -108,5 +108,5 @@ def ml_model():
     plt.scatter(y_test, y_pred, color='b', linestyle='-')
     plt.show()
 
-if __name__ == "__main__":
-    ml_model()
+# if __name__ == "__main__":
+#     ml_model()

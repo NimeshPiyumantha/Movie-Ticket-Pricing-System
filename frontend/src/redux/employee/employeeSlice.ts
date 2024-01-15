@@ -12,12 +12,19 @@ interface IEmployeeEntry {
   gender: string;
 }
 
+interface ISignInData {
+  email: string;
+  password: string;
+}
+
 interface IEmployeeState {
   employeeEntries: IEmployeeEntry[];
+  isAuthenticated: boolean;
 }
 
 const initialState: IEmployeeState = {
   employeeEntries: [],
+  isAuthenticated: false,
 };
 
 export const employeeSlice = createSlice({
@@ -48,6 +55,11 @@ export const employeeSlice = createSlice({
         (userEntry) => userEntry.id !== id
       );
     },
+    setAuthenticated: (state, action: PayloadAction<boolean>) => {
+      state.isAuthenticated = action.payload;
+    },
+
+    signIn(state, action: PayloadAction<ISignInData>) {},
   },
 });
 

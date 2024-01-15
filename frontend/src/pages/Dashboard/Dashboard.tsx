@@ -80,7 +80,7 @@ const defaultTheme = createTheme({
   },
 });
 
-const Dashboard = () => {
+const Dashboard = ({ onLogout }: any) => {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -135,6 +135,7 @@ const Dashboard = () => {
                       ? theme.palette.grey[100]
                       : theme.palette.grey[900],
                 }}
+                onClick={onLogout}
               />
             </IconButton>
           </Toolbar>
