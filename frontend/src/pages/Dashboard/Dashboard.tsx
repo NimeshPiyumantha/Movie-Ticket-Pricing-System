@@ -16,6 +16,8 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./ListItems/ListItems";
 import Navigation from "../../components/Navigation/Navigation";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useAppDispatch } from "../../redux/store";
+import { employeeActions } from "../../redux/employee/employeeSlice";
 
 const drawerWidth: number = 240;
 
@@ -86,6 +88,8 @@ const Dashboard = ({ onLogout }: any) => {
     setOpen(!open);
   };
 
+  const dispatch = useAppDispatch();
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
@@ -135,7 +139,10 @@ const Dashboard = ({ onLogout }: any) => {
                       ? theme.palette.grey[100]
                       : theme.palette.grey[900],
                 }}
-                onClick={onLogout}
+                onClick={() => {
+                  onLogout();
+                  dispatch(employeeActions.signOut());
+                }}
               />
             </IconButton>
           </Toolbar>

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { sign } from "crypto";
 
 interface IEmployeeEntry {
   id: string;
@@ -60,6 +61,7 @@ export const employeeSlice = createSlice({
     },
 
     signIn(state, action: PayloadAction<ISignInData>) {},
+    signOut(state) {},
   },
 });
 

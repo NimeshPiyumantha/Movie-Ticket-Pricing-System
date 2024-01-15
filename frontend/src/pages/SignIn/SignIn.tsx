@@ -14,19 +14,32 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Footer from "../../components/Footer/Footer";
 import { FormEvent } from "react";
+import { employeeActions } from "../../redux/employee/employeeSlice";
+import { useAppDispatch } from "../../redux/store";
 
 const defaultTheme = createTheme();
 
+interface ISignInData {
+  email: string;
+  password: string;
+}
+
 const SignIn = ({ onLogin }: any) => {
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    const signInData: ISignInData = {
+      email: data.get("email") as string,
+      password: data.get("password") as string,
+    };
+
+    console.log(signInData);
+
     onLogin();
+    dispatch(employeeActions.signIn(signInData));
   };
 
   return (

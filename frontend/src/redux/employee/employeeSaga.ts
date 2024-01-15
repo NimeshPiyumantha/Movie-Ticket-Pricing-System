@@ -114,6 +114,14 @@ function* signInUser(action: PayloadAction<ISignIn>) {
   }
 }
 
+function* signOut() {
+  try {
+    yield put(employeeActions.setAuthenticated(false));
+  } catch (e) {
+    alert("Error signing out " + e);
+  }
+}
+
 export function* employeeSaga() {
   yield takeLatest(employeeActions.fetchEmployeeEntry.type, fetchEmployee);
   yield takeLatest(
@@ -122,4 +130,5 @@ export function* employeeSaga() {
   );
   yield takeLatest(employeeActions.deleteEmployeeEntry.type, deleteEmployee);
   yield takeLatest(employeeActions.signIn.type, signInUser);
+  yield takeLatest(employeeActions.signOut.type, signOut);
 }
