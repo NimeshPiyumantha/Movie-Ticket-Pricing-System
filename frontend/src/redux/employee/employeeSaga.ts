@@ -2,7 +2,8 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { employeeActions } from "./employeeSlice";
 import { api } from "../../api/api";
-import { employeeApi } from "../../api/crudApi";
+import { employeeApi, userSignInApi } from "../../api/crudApi";
+import { AxiosResponse } from "axios";
 
 interface IData {
   id: number;
@@ -26,6 +27,11 @@ interface IEmployeeData {
   dob: string;
   password: string;
   gender: string;
+}
+
+interface ISignIn {
+  email: string;
+  password: string;
 }
 
 interface IEmployeeResponse {
@@ -82,6 +88,40 @@ function* deleteEmployee(action: PayloadAction<string>) {
   }
 }
 
+function* signInUser(action: PayloadAction<ISignIn>) {
+  const { email, password } = action.payload;
+  const userData = {
+    email: email,
+    password: password,
+  };
+  try {
+    const response: AxiosResponse = yield call(
+      api.post,
+      userSignInApi,
+      userData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.status === 200 || response.status === 201) {
+      alert("Signed in successfully");
+      yield put(employeeActions.setAuthenticated(true));
+    }
+  } catch (e) {
+    alert("Error signing in " + e);
+  }
+}
+
+function* signOut() {
+  try {
+    yield put(employeeActions.setAuthenticated(false));
+  } catch (e) {
+    alert("Error signing out " + e);
+  }
+}
+
 export function* employeeSaga() {
   yield takeLatest(employeeActions.fetchEmployeeEntry.type, fetchEmployee);
   yield takeLatest(
@@ -89,4 +129,6 @@ export function* employeeSaga() {
     addAndUpdateEmployee
   );
   yield takeLatest(employeeActions.deleteEmployeeEntry.type, deleteEmployee);
+  yield takeLatest(employeeActions.signIn.type, signInUser);
+  yield takeLatest(employeeActions.signOut.type, signOut);
 }

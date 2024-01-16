@@ -9,3 +9,7 @@ class EmployeesModel(BaseModel):
     dob: str
     password: str
     gender: str
+
+class EmployeeSignIn(BaseModel):
+    email: str
+    password: str

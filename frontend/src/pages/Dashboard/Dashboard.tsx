@@ -16,6 +16,8 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./ListItems/ListItems";
 import Navigation from "../../components/Navigation/Navigation";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useAppDispatch } from "../../redux/store";
+import { employeeActions } from "../../redux/employee/employeeSlice";
 
 const drawerWidth: number = 240;
 
@@ -80,11 +82,13 @@ const defaultTheme = createTheme({
   },
 });
 
-const Dashboard = () => {
+const Dashboard = ({ onLogout }: any) => {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const dispatch = useAppDispatch();
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -134,6 +138,10 @@ const Dashboard = () => {
                     theme.palette.mode === "light"
                       ? theme.palette.grey[100]
                       : theme.palette.grey[900],
+                }}
+                onClick={() => {
+                  onLogout();
+                  dispatch(employeeActions.signOut());
                 }}
               />
             </IconButton>
