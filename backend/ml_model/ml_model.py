@@ -14,7 +14,7 @@ def ml_model():
     # ============================
 
     # Read the CSV file into a DataFrame
-    df = pd.read_csv('cinemaTicket_Ref.csv')
+    df = pd.read_csv('data/cinemaTicket_Ref.csv')
     # print(df.head())
 
     # Display value counts for film codes and quarters
@@ -108,5 +108,5 @@ def ml_model():
     plt.scatter(y_test, y_pred, color='b', linestyle='-')
     plt.show()
 
-# if __name__ == "__main__":
-#     ml_model()
+if __name__ == "__main__":
+    ml_model()
