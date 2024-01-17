@@ -1,13 +1,27 @@
-import React from "react";
+import { useState } from "react";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import { Provider } from "react-redux";
-import store from "./redux/store";
+import SignIn from "./pages/SignIn/SignIn";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
 
 function App() {
-  return (
-    <Provider store={store}>
-      <Dashboard />
-    </Provider>
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.employeeEntries.isAuthenticated
+  );
+
+  const handleLogin = () => {
+    setLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+  };
+
+  return isLoggedIn && isAuthenticated ? (
+    <Dashboard onLogout={handleLogout} />
+  ) : (
+    <SignIn onLogin={handleLogin} />
   );
 }
 
