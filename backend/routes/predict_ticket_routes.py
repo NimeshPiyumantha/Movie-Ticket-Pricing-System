@@ -1,5 +1,3 @@
-from pyexpat import model  # It's unclear why you are importing 'model' from 'pyexpat'
-from turtle import pd  # It's unclear why you are importing 'pd' from 'turtle'
 from fastapi import APIRouter
 from ml_model.ml_predicted import make_predictions
 from models.prediction_input_model import PredictionInput
