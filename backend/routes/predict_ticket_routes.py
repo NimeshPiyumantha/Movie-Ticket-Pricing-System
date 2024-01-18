@@ -16,7 +16,6 @@ def predict(input_data: PredictionInput):
 
         # Your existing prediction function
         predictions = make_predictions(tickets_out, capacity, month, day)
-        print(predictions)
 
         # Return predictions as JSON
         return predictions
