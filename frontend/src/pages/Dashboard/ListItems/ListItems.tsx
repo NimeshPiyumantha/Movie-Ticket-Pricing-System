@@ -7,7 +7,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import MovieIcon from "@mui/icons-material/Movie";
 import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
+import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import {
   CURRENT_MONTH,
@@ -15,7 +15,7 @@ import {
   EMPLOYEE,
   LAST_MONTH,
   MOVIES,
-  REPORTS,
+  PREDICT_TICKET,
   YEAR_END_SALE,
 } from "../../../util/routesUtil";
 
@@ -39,11 +39,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Employee" />
     </ListItemButton>
-    <ListItemButton component={NavLink} to={REPORTS}>
+    <ListItemButton component={NavLink} to={PREDICT_TICKET}>
       <ListItemIcon>
-        <BarChartIcon />
+        <LocalActivityIcon/>
       </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Predict Ticket" />
     </ListItemButton>
   </>
 );

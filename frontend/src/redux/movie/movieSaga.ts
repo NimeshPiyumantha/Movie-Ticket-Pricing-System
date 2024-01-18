@@ -3,7 +3,6 @@ import { api } from "../../api/api";
 import { movieApi } from "../../api/crudApi";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { movieActions } from "./movieSlice";
-import { equal, notEqual } from "assert";
 
 interface IData {
   id: number;

@@ -24,7 +24,7 @@ interface IEmployeeState {
 
 const initialState: IEmployeeState = {
   employeeEntries: [],
-  isAuthenticated: false,
+  isAuthenticated: true,
 };
 
 export const employeeSlice = createSlice({

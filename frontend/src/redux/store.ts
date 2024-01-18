@@ -4,6 +4,7 @@ import createSagaMiddleware from "redux-saga";
 import rootSaga from "./saga";
 import { employeeReducer } from "./employee/employeeSlice";
 import { movieReducer } from "./movie/movieSlice";
+import { predictReducer } from "./predict/predictSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -11,6 +12,7 @@ const store = configureStore({
   reducer: {
     employeeEntries: employeeReducer,
     movieEntries: movieReducer,
+    predictEntries: predictReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),
