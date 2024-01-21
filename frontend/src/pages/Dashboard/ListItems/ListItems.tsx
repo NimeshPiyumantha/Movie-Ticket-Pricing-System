@@ -10,13 +10,10 @@ import PeopleIcon from "@mui/icons-material/People";
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import {
-  CURRENT_MONTH,
   DASHBOARD,
   EMPLOYEE,
-  LAST_MONTH,
   MOVIES,
   PREDICT_TICKET,
-  YEAR_END_SALE,
 } from "../../../util/routesUtil";
 
 export const mainListItems = (
@@ -44,32 +41,6 @@ export const mainListItems = (
         <LocalActivityIcon/>
       </ListItemIcon>
       <ListItemText primary="Predict Ticket" />
-    </ListItemButton>
-  </>
-);
-
-export const secondaryListItems = (
-  <>
-    <ListSubheader component="div" inset>
-      Reports
-    </ListSubheader>
-    <ListItemButton component={NavLink} to={CURRENT_MONTH}>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current Month" />
-    </ListItemButton>
-    <ListItemButton component={NavLink} to={LAST_MONTH}>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last Month" />
-    </ListItemButton>
-    <ListItemButton component={NavLink} to={YEAR_END_SALE}>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year End Sale" />
     </ListItemButton>
   </>
 );

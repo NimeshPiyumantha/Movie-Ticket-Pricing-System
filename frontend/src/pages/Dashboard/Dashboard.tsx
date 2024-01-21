@@ -13,7 +13,7 @@ import Badge from "@mui/material/Badge";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { mainListItems, secondaryListItems } from "./ListItems/ListItems";
+import { mainListItems } from "./ListItems/ListItems";
 import Navigation from "../../components/Navigation/Navigation";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAppDispatch } from "../../redux/store";
@@ -171,8 +171,6 @@ const Dashboard = ({ onLogout }: any) => {
           <Divider />
           <List component="nav">
             {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
           </List>
         </Drawer>
         <Box
