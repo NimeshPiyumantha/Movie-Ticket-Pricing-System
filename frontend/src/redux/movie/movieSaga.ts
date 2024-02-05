@@ -3,6 +3,7 @@ import { api } from "../../api/api";
 import { movieApi } from "../../api/crudApi";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { movieActions } from "./movieSlice";
+import { Toast } from "../../util/alert";
 
 interface IData {
   id: number;
@@ -57,8 +58,16 @@ function* addAndUpdateMovie(action: PayloadAction<IData>) {
   try {
     if (isUpdate) {
       yield call(api.put, `${movieApi}/${data.id}`, movieData);
+      Toast.fire({
+        icon: "success",
+        title: "Update Successfully",
+      });
     } else {
       yield call(api.post, movieApi, movieData);
+      Toast.fire({
+        icon: "success",
+        title: "Save Successfully",
+      });
     }
     yield put(movieActions.fetchMovieEntry());
   } catch (e) {
@@ -71,6 +80,10 @@ function* deleteMovie(action: PayloadAction<string>) {
   try {
     yield call(api.delete, `${movieApi}/${id}`);
     yield put(movieActions.fetchMovieEntry());
+    Toast.fire({
+      icon: "success",
+      title: "Delete Successfully",
+    });
   } catch (e) {
     alert("Error deleting movie data " + e);
   }

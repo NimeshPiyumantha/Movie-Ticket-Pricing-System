@@ -4,6 +4,7 @@ import { api } from "../../api/api";
 import { predictActions } from "./predictSlice";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
+import { Toast } from "../../util/alert";
 
 
 interface IPredictData {
@@ -27,6 +28,10 @@ function* addPredict(action: PayloadAction<IPredictData>) {
     const response: AxiosResponse  = yield call(api.post, predictApi, predictData);
     yield put(predictActions.setTicketPrice(Number(response.data)));
     console.log(response.data);
+    Toast.fire({
+      icon: "success",
+      title: "Predict Price Successfully",
+    });
   } catch (e) {
     alert("Error adding predict data " + e);
   }

@@ -4,6 +4,7 @@ import { employeeActions } from "./employeeSlice";
 import { api } from "../../api/api";
 import { employeeApi, userSignInApi } from "../../api/crudApi";
 import { AxiosResponse } from "axios";
+import { Toast } from "../../util/alert";
 
 interface IData {
   id: number;
@@ -69,8 +70,16 @@ function* addAndUpdateEmployee(action: PayloadAction<IData>) {
   try {
     if (isUpdate) {
       yield call(api.put, `${employeeApi}/${data.id}`, employeeData);
+      Toast.fire({
+        icon: "success",
+        title: "Update Successfully",
+      });
     } else {
       yield call(api.post, employeeApi, employeeData);
+      Toast.fire({
+        icon: "success",
+        title: "Save Successfully",
+      });
     }
     yield put(employeeActions.fetchEmployeeEntry());
   } catch (e) {
@@ -83,6 +92,10 @@ function* deleteEmployee(action: PayloadAction<string>) {
     const id = action.payload;
     yield call(api.delete, `${employeeApi}/${id}`);
     yield put(employeeActions.fetchEmployeeEntry());
+    Toast.fire({
+      icon: "success",
+      title: "Delete Successfully",
+    });
   } catch (e) {
     alert("Error deleting user data " + e);
   }
@@ -106,7 +119,10 @@ function* signInUser(action: PayloadAction<ISignIn>) {
       }
     );
     if (response.status === 200 || response.status === 201) {
-      alert("Signed in successfully");
+      Toast.fire({
+        icon: "success",
+        title: "Login Successfully",
+      });
       yield put(employeeActions.setAuthenticated(true));
     }
   } catch (e) {
