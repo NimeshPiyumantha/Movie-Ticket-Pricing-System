@@ -131,7 +131,7 @@ const EmployeeGrid = () => {
   const handleEditClick = (row: GridRowModel) => () => {
     setRowModesModel({
       ...rowModesModel,
-      [row.id]: { mode: GridRowModes.Edit },
+      [row.email]: { mode: GridRowModes.Edit },
     });
   };
 
