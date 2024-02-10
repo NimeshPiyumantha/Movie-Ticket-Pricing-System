@@ -5,7 +5,7 @@ import axios from "axios";
 // });
 
 const api = axios.create({
-  baseURL: "http://54.208.143.58:8000/api/v1",
+  baseURL: "http://54.198.57.212:8000/api/v1",
 });
 
 export { api };
